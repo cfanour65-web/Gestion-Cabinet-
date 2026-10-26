@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dossiers du cabinet</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#8a2234">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--bg:#edf0f3;--sf:#fbfcfd;--ink:#17212b;--mut:#5d6b79;--ln:#d5dbe1;--ac:#8a2234;--ok:#2e6b55;--bad:#b3261e;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f151c;--sf:#18212b;--ink:#e8ecf0;--mut:#93a1b0;--ln:#28333f;--ac:#e0798a;--ok:#6fc4a2;--bad:#ff8a80;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0f151c;--sf:#18212b;--ink:#e8ecf0;--mut:#93a1b0;--ln:#28333f;--ac:#e0798a;--ok:#6fc4a2;--bad:#ff8a80;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*:before,*:after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;padding-bottom:96px}
+main{max-width:640px;margin:0 auto;padding:0 16px}
+h1{font:600 30px/1.15 "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;margin:20px 0 14px;overflow-wrap:anywhere}
+h2{font-size:16px;font-weight:700;margin:14px 0 6px}
+:focus-visible{outline:2px solid var(--ac);outline-offset:2px}
+.mut{color:var(--mut)}.sm{font-size:14px}.late{color:var(--bad)}.okc{color:var(--ok)}
+.tap{cursor:pointer}
+.srch,.f input,.f select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--sf);border:1px solid var(--ln);border-radius:8px;padding:11px 12px}
+textarea{min-height:120px;resize:vertical}
+.f{display:block;margin-bottom:12px}.f span{display:block;font-size:13px;color:var(--mut);margin-bottom:4px}
+.chips{display:flex;gap:8px;overflow-x:auto;margin:12px 0 16px}
+.chip{flex:0 0 auto;font:inherit;font-size:14px;padding:7px 14px;border-radius:99px;border:1px solid var(--ln);background:var(--sf);color:var(--ink)}
+.chip.on{background:var(--ac);border-color:var(--ac);color:var(--bg)}
+.lst{background:var(--sf);border:1px solid var(--ln);border-radius:12px;overflow:hidden;margin-bottom:14px}
+.it{padding:12px 14px 12px 18px;border-bottom:1px solid var(--ln);box-shadow:inset 4px 0 0 var(--sc,transparent)}
+.it:last-child{border-bottom:0}
+.s0,.up{--sc:var(--ac)}.s1{--sc:var(--mut)}.s2{--sc:var(--ok)}.lt{--sc:var(--bad)}.dn{--sc:var(--ln)}
+.row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.row b{overflow-wrap:anywhere}
+.pill{font-size:12px;padding:2px 9px;border-radius:99px;white-space:nowrap;border:1px solid var(--sc,var(--ln));color:var(--sc,var(--mut))}
+.nx{margin-top:6px;font-size:14px;color:var(--ac)}.nx.late{color:var(--bad)}
+.kv{display:flex;gap:16px;flex-wrap:wrap;font-size:14px;color:var(--mut);margin-top:2px}
+.sec{background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:6px 14px 14px;margin-bottom:14px}
+.li{display:flex;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln)}
+.sec .li:last-of-type{border-bottom:0}
+.lst .li{padding:0}
+.g{flex:1;min-width:0}.g.done{opacity:.55;text-decoration:line-through}
+.ck{flex:0 0 26px;height:26px;border-radius:50%;border:2px solid var(--mut);background:none;color:var(--bg);font-size:15px;line-height:1;padding:0}
+.ck.on{background:var(--ok);border-color:var(--ok)}
+.x{background:none;border:0;color:var(--mut);font-size:26px;line-height:1;padding:0 4px}
+.add{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.add input{flex:1 1 140px;min-width:0;font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--ln);border-radius:8px;padding:10px 12px}
+.btn{font:inherit;font-weight:600;padding:10px 16px;border-radius:8px;border:0;background:var(--ac);color:var(--bg)}
+.back{background:none;border:0;font:inherit;color:var(--ac);padding:14px 0 0}
+.del{width:100%;margin:10px 0;padding:12px;border-radius:8px;border:1px solid var(--bad);background:none;color:var(--bad);font:inherit}
+.sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:4px 0 16px}
+.sum div{border-left:3px solid var(--ac);padding:2px 0 2px 10px}
+.sum span{display:block;font-size:13px;color:var(--mut)}.sum b{font-size:16px;overflow-wrap:anywhere}
+.empty{text-align:center;color:var(--mut);padding:40px 10px}
+.fab{position:fixed;right:18px;bottom:calc(76px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:16px;border:0;background:var(--ac);color:var(--bg);font-size:30px;line-height:1;box-shadow:0 4px 14px rgba(0,0,0,.3)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:var(--sf);border-top:1px solid var(--ln);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav button{flex:1;background:none;border:0;padding:9px 0 8px;font:inherit;font-size:12px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button i{font-style:normal;font-size:20px}
+nav button.on{color:var(--ac);font-weight:700}
+.locked nav{display:none}
+.lock{text-align:center;padding-top:16vh}
+.lock .f input{text-align:center;font-size:22px;letter-spacing:.3em}
+.sw{display:flex;gap:12px;margin:6px 0 12px}
+.sw button{width:36px;height:36px;border-radius:50%;border:2px solid var(--ln);padding:0}
+.sw button.on{outline:2px solid var(--ink);outline-offset:2px}
+.bk{min-height:90px;font-size:12px;word-break:break-all}
+.msg{font-size:14px;margin:6px 0}
+.vm{flex:0 0 26px;text-align:center}
+a.tl{color:var(--ac);text-decoration:none;font-weight:600}
+</style>
+</head>
+<body>
+<main id="app"></main>
+<nav>
+<button data-a="tab" data-i="d"><i>⚖️</i>Dossiers</button>
+<button data-a="tab" data-i="a"><i>📅</i>Agenda</button>
+<button data-a="tab" data-i="c"><i>👥</i>Contacts</button>
+<button data-a="tab" data-i="h"><i>💰</i>Honoraires</button>
+<button data-a="tab" data-i="r"><i>⚙️</i>Réglages</button>
+</nav>
+<script>
+const K='cabinet-dossiers-v1',ST=['En cours','En attente','Clôturé'];
+let S={d:[],c:[],dev:'',cab:'',pin:'',th:'auto',ac:0},tab='d',sel=null,selc=null,q='',qc='',flt='Tous',cf='Tous',arm=null,locked=false,msg='';
+try{const r=localStorage.getItem(K);if(r){const p=JSON.parse(r);if(p&&Array.isArray(p.d))S=Object.assign(S,p)}}catch(e){}
+S.d.forEach(d=>{d.pay=d.pay||[];d.ech=d.ech||[];d.conv=Number(d.conv)||0});S.c=S.c||[];locked=!!S.pin;
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const uid=()=>Math.random().toString(36).slice(2,9);
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())};
+const fd=s=>s?new Date(s+'T00:00:00').toLocaleDateString('fr-FR',{weekday:'short',day:'numeric',month:'short',year:'numeric'}):'';
+const mt=n=>(Number(n)||0).toLocaleString('fr-FR')+(S.dev?' '+S.dev:'');
+const m=n=>esc(mt(n));
+const cd=()=>S.d.find(x=>x.id===sel);
+const dd=t=>S.d.find(x=>x.id===(t.dataset.d||sel));
+const paid=d=>d.pay.reduce((s,p)=>s+p.m,0);
+const evs=d=>[...d.ech.filter(e=>!e.done),...[['aud','Audience',d.aud],['ren','Audience de renvoi',d.ren]].filter(x=>x[2]&&x[2]>=today()).map(x=>({id:x[0],t:x[1],d:x[2],v:1}))];
+const nxt=d=>evs(d).sort((a,b)=>a.d.localeCompare(b.d))[0];
+const ttl=d=>esc(d.titre)||'Dossier sans titre';
+
+function cards(){
+ const k=q.trim().toLowerCase();
+ const r=S.d.filter(d=>(flt==='Tous'||d.st===flt)&&(!k||[d.ref,d.rep,d.titre,d.client,d.adv,d.jur,d.nat].join(' ').toLowerCase().includes(k)));
+ if(!r.length)return `<p class="empty">${S.d.length?'Aucun dossier ne correspond.':'Aucun dossier pour l’instant.<br>Touchez «&nbsp;+&nbsp;» pour créer le premier.'}</p>`;
+ return `<div class="lst">`+r.map(d=>{const n=nxt(d),late=n&&n.d<today();
+  return `<div class="it tap s${ST.indexOf(d.st)}" data-a="sel" data-i="${d.id}"><div class="row"><b>${ttl(d)}</b><span class="pill">${esc(d.st)}</span></div><div class="row mut sm"><span>${esc(d.client)||'Client non renseigné'}</span><span>${d.ref?'n° '+esc(d.ref):''}</span></div>${n?`<div class="nx${late?' late':''}">${late?'En retard : ':'Prochaine échéance : '}${esc(n.t)}, ${fd(n.d)}</div>`:''}</div>`}).join('')+`</div>`;
+}
+const list=()=>`<h1>${esc(S.cab)||'Mes dossiers'}</h1><input id="q" class="srch" type="search" placeholder="Rechercher un client, un numéro…" value="${esc(q)}"><div class="chips">${['Tous',...ST].map(s=>`<button class="chip${flt===s?' on':''}" data-a="flt" data-i="${s}">${s}</button>`).join('')}</div><div id="lst">${cards()}</div><button class="fab" data-a="add" aria-label="Nouveau dossier">+</button>`;
+
+function detail(d){
+ const f=(k,l,p)=>`<label class="f"><span>${l}</span><input data-f="${k}" value="${esc(d[k])}" placeholder="${p||''}"></label>`;
+ const ech=[...d.ech].sort((a,b)=>a.d.localeCompare(b.d)).map(e=>`<div class="li"><button class="ck${e.done?' on':''}" data-a="tog" data-i="${e.id}" aria-label="Marquer comme fait">${e.done?'✓':''}</button><div class="g${e.done?' done':''}"><b>${esc(e.t)}</b><div class="mut sm">${fd(e.d)}</div></div><button class="x" data-a="rmE" data-i="${e.id}" aria-label="Supprimer l’échéance">×</button></div>`).join('')||`<p class="mut sm">Aucune échéance pour ce dossier.</p>`;
+ const pay=[...d.pay].sort((a,b)=>b.d.localeCompare(a.d)).map(p=>`<div class="li"><div class="g"><b>${m(p.m)}</b><div class="mut sm">${fd(p.d)}</div></div><button class="x" data-a="rmP" data-i="${p.id}" aria-label="Supprimer le versement">×</button></div>`).join('');
+ const r=d.conv-paid(d);
+ return `<button class="back" data-a="back">‹ Retour</button><h1>${esc(d.titre)||'Nouveau dossier'}</h1>`
+ +`<div class="sec"><h2>Informations</h2>${f('titre','Intitulé de l’affaire','Ex. Société X c/ Y')}${f('client','Client')}${f('adv','Partie adverse')}${f('ref','Numéro de dossier')}${f('rep','Numéro de répertoire')}<label class="f"><span>Statut</span><select data-f="st">${ST.map(s=>`<option${d.st===s?' selected':''}>${s}</option>`).join('')}</select></label></div>`
+ +`<div class="sec"><h2>Procédure</h2>${f('jur','Tribunal','Ex. Tribunal de commerce')}${f('ca','Cour d’appel saisie','Si l’affaire est pendante en appel')}<label class="f"><span>Nature de l’affaire</span><input data-f="nat" list="nats" value="${esc(d.nat)}" placeholder="Civile, pénale, commerciale…"></label><datalist id="nats">${['Civile','Commerciale','Pénale','Sociale','Administrative','Famille','Foncière'].map(x=>`<option>${x}</option>`).join('')}</datalist>${f('qual','Qualification')}<label class="f"><span>Date d’audience</span><input type="date" data-f="aud" value="${esc(d.aud)}"></label><label class="f"><span>Date de renvoi</span><input type="date" data-f="ren" value="${esc(d.ren)}"></label><label class="f"><span>Décision rendue</span><textarea data-f="dec" style="min-height:70px">${esc(d.dec)}</textarea></label></div>`+`<div class="sec"><h2>Échéances et audiences</h2>${ech}<div class="add"><input id="et" placeholder="Audience, délai de recours…"><input id="ed" type="date"><button class="btn" data-a="addE">Ajouter</button></div></div>`
+ +`<div class="sec"><h2>Honoraires</h2><label class="f"><span>Montant convenu</span><input data-f="conv" data-n="1" type="number" inputmode="decimal" value="${d.conv||''}" placeholder="0"></label><div class="mut">Encaissé ${m(paid(d))}, reste dû <b id="reste" class="${r>0?'late':'okc'}">${m(r)}</b></div>${pay}<div class="add"><input id="pm" type="number" inputmode="decimal" placeholder="Montant reçu"><input id="pd" type="date" value="${today()}"><button class="btn" data-a="addP">Enregistrer</button></div></div>`
+ +`<div class="sec"><h2>Notes</h2><textarea data-f="notes" placeholder="Faits, stratégie, pièces à obtenir…">${esc(d.notes)}</textarea></div>`
+ +`<button class="del" data-a="del" data-i="${d.id}">${arm===d.id?'Confirmer la suppression':'Supprimer ce dossier'}</button>`;
+}
+
+function agenda(){
+ const t=today(),all=[];
+ S.d.forEach(d=>{d.ech.forEach(e=>all.push({...e,did:d.id,dt:ttl(d)}));evs(d).filter(e=>e.v).forEach(e=>all.push({...e,id:e.id+d.id,did:d.id,dt:ttl(d)}))});
+ all.sort((a,b)=>a.d.localeCompare(b.d));
+ const g=(h,a,c)=>a.length?`<h2>${h}</h2><div class="lst">`+a.map(e=>`<div class="it li ${c}">${e.v?'<span class="vm">⚖️</span>':`<button class="ck${e.done?' on':''}" data-a="tog" data-i="${e.id}" data-d="${e.did}" aria-label="Marquer comme fait">${e.done?'✓':''}</button>`}<div class="g tap${e.done?' done':''}" data-a="sel" data-i="${e.did}"><b>${esc(e.t)}</b><div class="mut sm">${fd(e.d)}</div><div class="mut sm">${e.dt}</div></div></div>`).join('')+`</div>`:'';
+ const late=all.filter(e=>!e.done&&e.d<t),up=all.filter(e=>!e.done&&e.d>=t),dn=all.filter(e=>e.done).reverse().slice(0,8);
+ return `<h1>Agenda</h1>`+(g('En retard',late,'lt')+g('À venir',up,'up')+g('Terminées',dn,'dn')||`<p class="empty">Aucune échéance.<br>Ajoutez-les depuis la fiche d’un dossier.</p>`);
+}
+
+function fees(){
+ const tc=S.d.reduce((s,d)=>s+d.conv,0),tp=S.d.reduce((s,d)=>s+paid(d),0);
+ const rows=S.d.filter(d=>d.conv||d.pay.length).map(d=>{const r=d.conv-paid(d);return `<div class="it tap s${ST.indexOf(d.st)}" data-a="sel" data-i="${d.id}"><div class="row"><b>${ttl(d)}</b><b class="${r>0?'late':'okc'}">${m(r)}</b></div><div class="kv"><span>Convenu ${m(d.conv)}</span><span>Encaissé ${m(paid(d))}</span></div></div>`}).join('');
+ return `<h1>Honoraires</h1><label class="f"><span>Devise</span><input id="dev" value="${esc(S.dev)}" placeholder="Ex. FCFA, €, $"></label><div class="sum"><div><span>Convenu</span><b>${m(tc)}</b></div><div><span>Encaissé</span><b>${m(tp)}</b></div><div><span>Reste dû</span><b>${m(tc-tp)}</b></div></div>`+(rows?`<div class="lst">${rows}</div>`:`<p class="empty">Renseignez les honoraires dans la fiche d’un dossier.</p>`);
+}
+
+const AC=[['Bordeaux','#8a2234','#e0798a'],['Bleu nuit','#1f4f8f','#7fb0ee'],['Prune','#6a2c70','#d6a0dc'],['Ardoise','#2b3a4a','#aebfd0']],ROLES=['Client','Huissier','Greffe','Confrère','Autre'];
+function applyLook(){const r=document.documentElement,dk=S.th==='dark'||(S.th!=='light'&&matchMedia('(prefers-color-scheme:dark)').matches),a=AC[S.ac]||AC[0];if(S.th==='auto')r.removeAttribute('data-theme');else r.dataset.theme=S.th;r.style.setProperty('--ac',dk?a[2]:a[1]);document.title=S.cab||'Dossiers du cabinet'}
+async function hs(s){try{const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('cab:'+s));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join('')}catch(e){return'p:'+s}}
+async function chk(){const v=$('pin').value;if(await hs(v)===S.pin){locked=false;render()}else{$('lm').textContent='Code incorrect.';$('pin').value=''}}
+async function savePin(){const v=$('np').value.trim();if(v.length<4){$('msg').textContent='Le code doit comporter au moins 4 caractères.';return}S.pin=await hs(v);save();msg='Code enregistré. Il sera demandé à chaque ouverture.';render()}
+const lockV=()=>`<div class="lock"><h1>${esc(S.cab)||'Dossiers du cabinet'}</h1><label class="f"><span>Code d’accès</span><input id="pin" type="password" inputmode="numeric" autocomplete="off"></label><div id="lm" class="msg late"></div><button class="btn" data-a="unlock">Ouvrir</button></div>`;
+const fld=(k,l,v,t)=>`<label class="f"><span>${l}</span><input data-f="${k}" type="${t||'text'}" value="${esc(v)}"></label>`;
+function ccards(){
+ const k=qc.trim().toLowerCase(),r=S.c.filter(c=>(cf==='Tous'||c.role===cf)&&(!k||[c.nom,c.org,c.tel,c.mail].join(' ').toLowerCase().includes(k)));
+ if(!r.length)return `<p class="empty">${S.c.length?'Aucun contact ne correspond.':'Aucun contact pour l’instant.<br>Touchez «&nbsp;+&nbsp;» pour en ajouter un.'}</p>`;
+ return `<div class="lst">`+r.map(c=>`<div class="it tap" data-a="selC" data-i="${c.id}"><div class="row"><b>${esc(c.nom)||'Sans nom'}</b><span class="pill">${esc(c.role)}</span></div><div class="mut sm">${esc(c.org)}</div>${c.tel?`<div class="sm"><a class="tl" data-a="x" href="tel:${esc(c.tel)}">${esc(c.tel)}</a></div>`:''}</div>`).join('')+`</div>`;
+}
+const contacts=()=>`<h1>Contacts</h1><input id="qc" class="srch" type="search" placeholder="Rechercher un nom, une étude…" value="${esc(qc)}"><div class="chips">${['Tous',...ROLES].map(s=>`<button class="chip${cf===s?' on':''}" data-a="cf" data-i="${s}">${s}</button>`).join('')}</div><div id="clst">${ccards()}</div><button class="fab" data-a="addC" aria-label="Nouveau contact">+</button>`;
+const cdet=c=>`<button class="back" data-a="back">‹ Retour</button><h1>${esc(c.nom)||'Nouveau contact'}</h1><div class="sec"><h2>Coordonnées</h2>${fld('nom','Nom',c.nom)}<label class="f"><span>Rôle</span><select data-f="role">${ROLES.map(s=>`<option${c.role===s?' selected':''}>${s}</option>`).join('')}</select></label>${fld('org','Étude, tribunal ou société',c.org)}${fld('tel','Téléphone',c.tel,'tel')}${fld('mail','E-mail',c.mail,'email')}<label class="f"><span>Notes</span><textarea data-f="note">${esc(c.note)}</textarea></label></div><button class="del" data-a="delC" data-i="${c.id}">${arm===c.id?'Confirmer la suppression':'Supprimer ce contact'}</button>`;
+function settings(){
+ const bk=JSON.stringify({...S,pin:undefined});
+ return `<h1>Réglages</h1><div class="sec"><h2>Cabinet</h2><label class="f"><span>Nom du cabinet</span><input id="cab" value="${esc(S.cab)}" placeholder="Ex. Cabinet Me Dupont"></label></div>`
+ +`<div class="sec"><h2>Code d’accès</h2><p class="mut sm">${S.pin?'Un code est demandé à chaque ouverture.':'Aucun code défini.'} Ce code verrouille l’écran ; il ne chiffre pas les données.</p><label class="f"><span>${S.pin?'Nouveau code':'Choisir un code'} (4 caractères minimum)</span><input id="np" type="password" inputmode="numeric" autocomplete="off"></label><div class="add"><button class="btn" data-a="setPin">Enregistrer le code</button>${S.pin?'<button class="del" style="width:auto;margin:0" data-a="noPin">Désactiver</button>':''}</div></div>`
+ +`<div class="sec"><h2>Apparence</h2><div class="mut sm">Couleur</div><div class="sw">${AC.map((a,i)=>`<button class="${S.ac===i?'on':''}" style="background:${a[1]}" data-a="ac" data-i="${i}" aria-label="${a[0]}"></button>`).join('')}</div><div class="chips">${[['auto','Automatique'],['light','Clair'],['dark','Sombre']].map(x=>`<button class="chip${S.th===x[0]?' on':''}" data-a="th" data-i="${x[0]}">${x[1]}</button>`).join('')}</div></div>`
+ +`<div class="sec"><h2>Sauvegarde</h2><p class="mut sm">Copiez ce texte et collez-le dans un e-mail ou un message à vous-même. Le code d’accès n’est pas inclus.</p><textarea id="bk" class="bk" readonly>${esc(bk)}</textarea><div class="add"><button class="btn" data-a="copy">Copier la sauvegarde</button></div><h2>Restauration</h2><textarea id="rs" class="bk" placeholder="Collez ici une sauvegarde"></textarea><div class="add"><button class="btn" data-a="restore">Restaurer</button></div></div>`
+ +`<div id="msg" class="msg">${esc(msg)}</div>`;
+}
+function render(){
+ const d=sel?cd():null;if(sel&&!d)sel=null;
+ const c=selc?S.c.find(x=>x.id===selc):null;if(selc&&!c)selc=null;
+ document.body.classList.toggle('locked',locked);applyLook();
+ $('app').innerHTML=locked?lockV():sel?detail(d):selc?cdet(c):tab==='d'?list():tab==='a'?agenda():tab==='c'?contacts():tab==='h'?fees():settings();
+ if(locked){const p=$('pin');if(p)p.focus()}
+ document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b.dataset.i===tab));
+}
+
+const act={
+ tab(i){tab=i;sel=null;selc=null;arm=null;msg='';render();scrollTo(0,0)},
+ sel(i){sel=i;selc=null;arm=null;render();scrollTo(0,0)},
+ back(){sel=null;selc=null;arm=null;render()},
+ flt(i){flt=i;render()},
+ add(){const d={id:uid(),ref:'',titre:'',client:'',adv:'',jur:'',st:ST[0],notes:'',conv:0,pay:[],ech:[]};S.d.unshift(d);save();sel=d.id;render();scrollTo(0,0)},
+ tog(i,t){const d=dd(t),e=d&&d.ech.find(x=>x.id===i);if(e){e.done=!e.done;save();render()}},
+ rmE(i){const d=cd();if(d){d.ech=d.ech.filter(x=>x.id!==i);save();render()}},
+ rmP(i){const d=cd();if(d){d.pay=d.pay.filter(x=>x.id!==i);save();render()}},
+ addE(){const d=cd(),t=$('et').value.trim(),dt=$('ed').value;if(!d)return;if(!t||!dt){(t?$('ed'):$('et')).focus();return}d.ech.push({id:uid(),t,d:dt,done:false});save();render()},
+ addP(){const d=cd(),v=Number($('pm').value);if(!d)return;if(!v){$('pm').focus();return}d.pay.push({id:uid(),m:v,d:$('pd').value||today()});save();render()},
+ del(i){if(arm===i){S.d=S.d.filter(x=>x.id!==i);save();sel=null;arm=null}else arm=i;render()},
+ selC(i){selc=i;sel=null;arm=null;render();scrollTo(0,0)},
+ addC(){const c={id:uid(),nom:'',role:'Client',org:'',tel:'',mail:'',note:''};S.c.unshift(c);save();selc=c.id;render();scrollTo(0,0)},
+ cf(i){cf=i;render()},
+ delC(i){if(arm===i){S.c=S.c.filter(x=>x.id!==i);save();selc=null;arm=null}else arm=i;render()},
+ ac(i){S.ac=+i;save();render()},
+ th(i){S.th=i;save();render()},
+ unlock(){chk()},
+ setPin(){savePin()},
+ noPin(){S.pin='';save();msg='Code désactivé.';render()},
+ copy(){const t=$('bk');t.focus();t.select();t.setSelectionRange(0,1e9);let ok=false;try{ok=document.execCommand('copy')}catch(e){}$('msg').textContent=ok?'Sauvegarde copiée.':'Sélectionnez le texte ci-dessus et copiez-le.'},
+ restore(){const s=$('msg');let p;try{p=JSON.parse($('rs').value.trim())}catch(e){}if(!p||!Array.isArray(p.d)){s.textContent='Sauvegarde invalide. Collez le texte complet.';return}if(arm!=='rs'){arm='rs';s.textContent='Touchez encore Restaurer pour confirmer : les données actuelles seront remplacées.';return}const pin=S.pin;S=Object.assign({d:[],c:[],dev:'',cab:'',th:'auto',ac:0},p,{pin});S.d.forEach(d=>{d.pay=d.pay||[];d.ech=d.ech||[];d.conv=Number(d.conv)||0});S.c=S.c||[];arm=null;save();msg='Données restaurées.';render()}
+};
+document.addEventListener('click',e=>{const t=e.target.closest('[data-a]');if(t&&act[t.dataset.a])act[t.dataset.a](t.dataset.i,t)});
+document.addEventListener('input',e=>{
+ const t=e.target,f=t.dataset.f;
+ if(f){const d=selc?S.c.find(x=>x.id===selc):cd();if(!d)return;d[f]=t.dataset.n?Number(t.value)||0:t.value;save();
+  if(f==='conv'){const r=$('reste'),v=d.conv-paid(d);if(r){r.textContent=mt(v);r.className=v>0?'late':'okc'}}}
+ else if(t.id==='q'){q=t.value;$('lst').innerHTML=cards()}
+ else if(t.id==='qc'){qc=t.value;$('clst').innerHTML=ccards()}
+ else if(t.id==='cab'){S.cab=t.value;save();document.title=S.cab||'Dossiers du cabinet'}
+ else if(t.id==='dev'){S.dev=t.value;save()}
+});
+document.addEventListener('change',e=>{if(e.target.id==='dev')render()});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.id==='pin')chk()});
+document.addEventListener('visibilitychange',()=>{if(document.hidden&&S.pin){locked=true;render()}});
+try{matchMedia('(prefers-color-scheme:dark)').addEventListener('change',applyLook)}catch(e){}
+render();
+if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js').catch(()=>{});
+</script>
+</body>
+</html>
